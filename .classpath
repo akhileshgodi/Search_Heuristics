@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="deps/jgrapht-jdk1.6.jar"/>
+	<classpathentry kind="lib" path="dist/alviz2-20121013.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/usr/local/java/jdk1.7.0_09/jre/lib/jfxrt.jar"/>
+	<classpathentry kind="output" path="src"/>
+</classpath>

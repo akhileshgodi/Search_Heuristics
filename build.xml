@@ -1,0 +1,46 @@
+
+<project name="alviz2" default="dist" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant" >
+	<description>
+		Alviz 2
+	</description>
+
+
+	<property name="proj-dir" location="." />
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	<property name="deps" location="deps" />
+	<property name="main-class" value="alviz2.app.Alviz" />
+	<property name="javafx.lib.ant-javafx.jar" value="/usr/local/java/jdk1.7.0_09/lib/ant-javafx.jar" />
+
+	<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"      
+        uri="javafx:com.sun.javafx.tools.ant"
+        classpath="${javafx.lib.ant-javafx.jar}"/>
+
+	<target name="init">
+		<tstamp />
+		<mkdir dir="build" />
+		<mkdir dir="dist" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" 
+			   destdir="${build}" 
+			   includeantruntime="no" 
+			   classpath="/usr/local/java/jre1.7.0_09/lib/jfxrt.jar;${proj-dir}/deps/jgrapht-jdk1.6.jar">
+			   <compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile">
+		<copy file="${src}/alviz2/app/Alviz.fxml" todir="${build}/alviz2/app" />
+		<fx:jar destfile="${dist}/alviz2-${DSTAMP}.jar">
+			<fx:application name="Alviz 2" mainClass="${main-class}" />
+			<fx:resources>
+				<fx:fileset dir="${deps}" type="jar" includes="*.jar" />
+				<fx:fileset type="data" file="${src}/alviz2/app/Alviz.fxml" />
+			</fx:resources>
+			<fileset dir="${build}/" />
+		</fx:jar>
+	</target>
+</project>
