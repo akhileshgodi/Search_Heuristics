@@ -21,7 +21,7 @@ public class Edge {
 		private Set<Edge> changedEdges;
 
 		private PropChanger() {
-			changedEdges = new HashSet<>();
+			changedEdges = new HashSet<Edge>();
 		}
 
 		public static PropChanger create() {

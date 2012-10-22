@@ -2,13 +2,11 @@
 package alviz2.algo;
 
 import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
 import org.jgrapht.VertexFactory;
 import org.jgrapht.EdgeFactory;
 
 import javafx.scene.paint.Color;
 import javafx.scene.chart.XYChart;
-import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -60,7 +58,9 @@ public class GreedyTSP implements Algorithm<Node, Edge> {
 		}
 	}
 
-	@Override public void setGraph(Graph<Node,Edge> graph, Node.PropChanger npr, Edge.PropChanger epr, Set<Node> Start, Set<Node> Goal)
+	@Override 
+	public void setGraph(Graph<Node,Edge> graph, Node.PropChanger npr, 
+			Edge.PropChanger epr, Set<Node> Start, Set<Node> Goal)
 	{
 		gph = graph;
 		this.npr = npr;

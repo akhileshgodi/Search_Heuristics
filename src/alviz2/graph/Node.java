@@ -19,7 +19,7 @@ public class Node {
 		private Set<Node> changedNodes;
 
 		private PropChanger() {
-			changedNodes = new HashSet<>();
+			changedNodes = new HashSet<Node>();
 		}
 
 		public static PropChanger create() {
