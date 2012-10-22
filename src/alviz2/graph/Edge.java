@@ -9,7 +9,7 @@ import javafx.geometry.Point2D;
 
 import alviz2.graph.Node;
 
-public class Edge {
+public class Edge implements Comparable<Edge>{
 
 	private int id;
 	private Node ns, nd;
@@ -90,6 +90,13 @@ public class Edge {
 
 	public final Point2D getPositionD() {
 		return nd.getPosition();
+	}
+
+	@Override
+	public int compareTo(Edge o) {
+		if(cost > o.cost) return 1;
+		if(cost < o.cost) return -1;
+		return 0;
 	}
 	
 }

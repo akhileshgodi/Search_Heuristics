@@ -1,0 +1,3 @@
+*.class
+/build/*
+alviz2*.jar
