@@ -2,3 +2,5 @@
 /build/*
 alviz2-2012102*.jar
 alviz2-201211*.jar
+build.xml
+.classpath

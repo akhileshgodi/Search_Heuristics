@@ -9,11 +9,12 @@ import javafx.geometry.Point2D;
 
 public class Node {
 
-	private int id;
+	public int id;
 	private Point2D pos;
 	Color fillColor;
 	double cost;
 	boolean visible;
+	public int deg;
 
 	public static class PropChanger {
 		private Set<Node> changedNodes;
@@ -55,6 +56,7 @@ public class Node {
 		fillColor = Color.DIMGRAY;
 		cost = 0;
 		visible = false;
+		deg = 0;
 	}
 
 	public int getId() {
