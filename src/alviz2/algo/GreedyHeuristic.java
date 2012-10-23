@@ -124,7 +124,7 @@ public class GreedyHeuristic implements Algorithm<Node, Edge> {
 			}
 			else if(isCycle){
 				int connNodeNum = addedVtices.size();
-				if(connNodeNum == gph.vertexSet().size()&& src.deg < 2 && dest.deg < 2){
+				if(selectedEdges.size()+1 == gph.vertexSet().size()&& src.deg < 2 && dest.deg < 2){
 					selectedEdges.add(currEdge);
 					epr.setVisible(currEdge, true);
 					return false;
@@ -138,14 +138,13 @@ public class GreedyHeuristic implements Algorithm<Node, Edge> {
 	
 	boolean bfs(Node start, Node end, Set<Edge> edges){
 		Node curr = start;
-		System.out.println("BFS: start " + start.id + " end " + end.id);
+		//System.out.println("BFS: start " + start.id + " end " + end.id);
 		Set<Node> closed = new HashSet<Node>();
 		Queue<Node> nq = new LinkedList<Node>();
 		nq.add(start);
 		closed.add(start);
 		while(!nq.isEmpty() && curr != end){
 			curr = nq.poll();
-			System.out.println(curr.id);
 			for(Edge e:gph.edgesOf(curr)){
 				Node other = otherEnd(e,curr);
 				if(edges.contains(e) && !closed.contains(other)) {
@@ -155,6 +154,7 @@ public class GreedyHeuristic implements Algorithm<Node, Edge> {
 			}
 		}
 		boolean ret = curr.id == end.id;
+		System.out.println(curr.id+ " " + end.id + " " + ret);
 		return ret;
 	}
 	
@@ -163,7 +163,7 @@ public class GreedyHeuristic implements Algorithm<Node, Edge> {
 		temps = gph.getEdgeSource(e);
 		tempt = gph.getEdgeTarget(e);
 		other = temps.equals(s) ? tempt : temps;
-		System.out.print("first:" + s.id + " other " + other.id);
+		//System.out.print("first:" + s.id + " other " + other.id);
 		return other;
 	}
 	

@@ -162,6 +162,7 @@ public class NearestInsertionTSP implements Algorithm<Node, Edge> {
 					kj = gph.getEdge(j, k);
 				}
 				double computedCost = ik.getCost() + kj.getCost() - ij.getCost();
+				System.out.print(computedCost + " ");
 				if(computedCost < cost){
 					cost = computedCost;
 					IK = ik;
@@ -178,7 +179,6 @@ public class NearestInsertionTSP implements Algorithm<Node, Edge> {
 			epr.setStrokeColor(IK, Color.RED);
 			epr.setStrokeColor(KJ, Color.RED);
 			npr.setFillColor(nearestNode, Color.BLUE);
-			System.out.println(cycleNodeSet.size() + "---------------");
 			if(cycleEdgeSet.size() != 1)
 				cycleEdgeSet.remove(IJ);
 			cycleEdgeSet.add(IK);
