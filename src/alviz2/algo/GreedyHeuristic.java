@@ -2,22 +2,18 @@
 package alviz2.algo;
 
 import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
 import org.jgrapht.VertexFactory;
 import org.jgrapht.EdgeFactory;
 
 import javafx.scene.paint.Color;
 import javafx.scene.chart.XYChart;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.Random;
 
 import alviz2.graph.Node;
 import alviz2.graph.Edge;
@@ -123,7 +119,6 @@ public class GreedyHeuristic implements Algorithm<Node, Edge> {
 				return true;
 			}
 			else if(isCycle){
-				int connNodeNum = addedVtices.size();
 				if(selectedEdges.size()+1 == gph.vertexSet().size()&& src.deg < 2 && dest.deg < 2){
 					selectedEdges.add(currEdge);
 					epr.setVisible(currEdge, true);
@@ -153,8 +148,8 @@ public class GreedyHeuristic implements Algorithm<Node, Edge> {
 				}
 			}
 		}
-		boolean ret = curr.id == end.id;
-		System.out.println(curr.id+ " " + end.id + " " + ret);
+		boolean ret = curr.getId() == end.getId();
+		System.out.println(curr.getId()+ " " + end.getId() + " " + ret);
 		return ret;
 	}
 	

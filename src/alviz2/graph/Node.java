@@ -9,7 +9,7 @@ import javafx.geometry.Point2D;
 
 public class Node {
 
-	public int id;
+	private int id;
 	private Point2D pos;
 	Color fillColor;
 	double cost;
