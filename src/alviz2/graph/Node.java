@@ -15,6 +15,8 @@ public class Node {
 	double cost;
 	boolean visible;
 	public int deg;
+	public double leastCost;
+	public double secLeastCost;
 	public Set<Node> tourNodes;
 	public static class PropChanger {
 		private Set<Node> changedNodes;
