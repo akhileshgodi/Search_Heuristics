@@ -15,7 +15,7 @@ public class Node {
 	double cost;
 	boolean visible;
 	public int deg;
-
+	public Set<Node> tourNodes;
 	public static class PropChanger {
 		private Set<Node> changedNodes;
 
@@ -57,6 +57,7 @@ public class Node {
 		cost = 0;
 		visible = false;
 		deg = 0;
+		tourNodes = new HashSet<Node>();
 	}
 
 	public int getId() {
