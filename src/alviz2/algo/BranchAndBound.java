@@ -34,7 +34,8 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 	Edge.PropChanger epr;
 	Node curNode;
 	int lowestYet;
-	Stack<Node> rem;
+	
+	
 	
 
 	public BranchAndBound() {
@@ -43,7 +44,6 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 		rc = Color.RED;
 		sc = Color.BLACK;
 		lowestYet = Integer.MAX_VALUE;
-		rem = new Stack<>();
 	}
 
 	public static class VFac implements VertexFactory<Node> {
@@ -112,24 +112,26 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 		return new EFac();
 	}
 	
-	void bab(Set<Edge> sel, Set<Edge> rej){
-		Node curr;
-		double lb;
-		double currcost = 0;
-		while(true){
-			curr = rem.pop();
-			for (Edge e : gph.edgesOf(curr)) {
-				Node other = otherEnd(e, curr);
-				if (other.deg < 2) {
-					lb = lowerbound(e, sel, rej, currcost);
-					if (lb < lowestYet)
-						rem.push(other);
-				}
-			}
-			boolean isCycle;
-			isCycle = bfs(gph.getEdgeSource(curr), gph.getEdgeTarget(curr), sel);
-		}
-	}
+	
+	
+//	void bab(Set<Edge> sel, Set<Edge> rej){
+//		Node curr;
+//		double lb;
+//		double currcost = 0;
+//		while(true){
+//			curr = rem.pop();
+//			for (Edge e : gph.edgesOf(curr)) {
+//				Node other = otherEnd(e, curr);
+//				if (other.deg < 2) {
+//					lb = lowerbound(e, sel, rej, currcost);
+//					if (lb < lowestYet)
+//						rem.push(other);
+//				}
+//			}
+//			boolean isCycle;
+//			isCycle = bfs(gph.getEdgeSource(curr), gph.getEdgeTarget(curr), sel);
+//		}
+//	}
 	
 	double lowerbound(Edge e, Set<Edge> sel, Set<Edge> rej,double  currcost){
 		double lb = currcost;
@@ -171,6 +173,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 	}	
 	@Override public boolean executeSingleStep()
 	{	
+		
 		
 		return true;
 	}
