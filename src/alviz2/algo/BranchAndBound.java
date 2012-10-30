@@ -8,6 +8,7 @@ import org.jgrapht.EdgeFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.chart.XYChart;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
@@ -29,21 +30,31 @@ import alviz2.util.*;
 public class BranchAndBound implements Algorithm<Node, Edge> {
 
 	Graph<Node, Edge> gph;
-	Color sc,rc;
 	Node.PropChanger npr;
 	Edge.PropChanger epr;
 	Node curNode;
-	int lowestYet;
+	ArrayList<Edge> edges;
+	int edgeState[];
 	
-	
+	int counter;
+	boolean forward;
+	Set<Edge> curredges;
+	Set<Edge> banned;
+	int currmin;
+	int currcost;
+	Set<Edge> minsave;
 	
 
 	public BranchAndBound() {
 		gph = null;
 		npr = null;
-		rc = Color.RED;
-		sc = Color.BLACK;
-		lowestYet = Integer.MAX_VALUE;
+		currmin = Integer.MAX_VALUE;
+		currcost = 0;
+		counter = 0;
+		forward = true;
+		curredges = new HashSet<Edge>();
+		banned = new HashSet<Edge>();
+				
 	}
 
 	public static class VFac implements VertexFactory<Node> {
@@ -83,18 +94,12 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 		npr.setFillColor(curNode, Color.BLUE);
 		Set<Node> nodes = gph.vertexSet();
 		for(Node n:nodes){
-			double min = Double.MAX_VALUE, smin = Double.MAX_VALUE;
 			Set<Edge> te = gph.edgesOf(n);
-			for(Edge e:te){
-				if(e.getCost() < min){
-					smin = min;
-					min = e.getCost();
-				}
-				else if(e.getCost() < smin) smin = e.getCost();
-			}
-			n.leastCost = min;
-			n.secLeastCost = smin;
+			n.orderedEdges = new ArrayList<Edge>(te);
+			Collections.sort(n.orderedEdges);
 		}
+		edges = new ArrayList<Edge>(gph.edgeSet());
+		edgeState = new int[edges.size()];
 	}
 
 	@Override public void setChart(XYChart<Number,Number> chart)
@@ -133,15 +138,6 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 //		}
 //	}
 	
-	double lowerbound(Edge e, Set<Edge> sel, Set<Edge> rej,double  currcost){
-		double lb = currcost;
-		Set<Node> nodes = gph.vertexSet();
-		for(Node n:nodes){
-			if(n.deg == 0) lb += n.leastCost + n.secLeastCost;
-			else if(n.deg == 1) lb += n.leastCost;
-		}
-		return lb;
-	}
 	Node otherEnd(Edge e, Node s) {
 		Node temps, tempt, other;
 		temps = gph.getEdgeSource(e);
@@ -173,9 +169,137 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 	}	
 	@Override public boolean executeSingleStep()
 	{	
-		
-		
-		return true;
+		if(forward){
+			while(true){
+				if(allowed(counter)){
+					select(counter);
+					counter++;
+					if(counter >= edges.size()){ //> or >=??
+						forward = false;
+						return true;
+					}
+					if(curredges.size() == gph.vertexSet().size()){
+						int cost = 0;
+						for(Edge e:curredges) cost += e.getCost();
+						if(cost < currmin){
+							currmin = cost;
+							minsave = new HashSet<Edge>(curredges);
+						}
+						forward = false;
+						return true;
+					}
+					return true;
+				}
+				else{
+					ban(counter);
+				    counter++;
+					if(counter >= edges.size()){ //> or >=??
+						forward = false;
+					}
+					return true;
+				}
+				
+			}
+		}
+		else{
+			while(true){
+				if(counter < 0) return false;
+				if(edgeState[counter] == 1){
+					deselect(counter);
+					ban(counter);
+					forward = true;
+					counter++;
+					return true;
+				}
+				else{
+					unban(counter);
+                    counter--;
+				}
+			}
+		}
+	}
+	
+	boolean allowed(int edgenum){
+		Edge curr = edges.get(edgenum);
+		Node src, target;
+		src = gph.getEdgeSource(curr);
+		target = gph.getEdgeTarget(curr);
+		if(src.deg > 1 || target.deg > 1){
+			return false;
+		}
+		boolean isCycle = bfs(src, target, curredges);
+		if(isCycle && curredges.size() + 1 != gph.vertexSet().size()){
+			//TODO: is this correct???
+			return false;			
+		}
+		double lb;
+		select(edgenum);
+		lb = lowerbound();
+		deselect(edgenum);
+		return lb < currmin;
+	}
+	
+	double lowerbound() {
+		double lb;
+		lb = currcost;
+		for (Node n : gph.vertexSet()) {
+			if (n.deg == 0) {
+				int tmpcount = 0;
+				for (Edge e : n.orderedEdges) {
+					if (!banned.contains(e)) {
+						lb += e.getCost();
+						tmpcount++;
+					}
+					if (tmpcount == 2)
+						break;
+				}
+			}
+			if (n.deg == 1) {
+				for (Edge e : n.orderedEdges) {
+					if (!banned.contains(e) && !curredges.contains(e)) {
+						lb += e.getCost();
+						break;
+					}
+				}
+
+			}
+
+		}
+
+		return lb;
+	}
+	
+	void select(int edgenum){
+		Edge curr = edges.get(edgenum);
+		epr.setVisible(curr, true);
+		epr.setStrokeColor(curr, Color.BLACK);
+		curredges.add(curr);
+		gph.getEdgeSource(curr).deg++;
+		gph.getEdgeTarget(curr).deg++;
+		edgeState[edgenum] = 1;
+		currcost += curr.getCost();
+	}
+	void deselect(int edgenum){
+		Edge des = edges.get(edgenum);
+		epr.setVisible(des, false);
+		curredges.remove(des);
+		gph.getEdgeSource(des).deg--;
+		gph.getEdgeTarget(des).deg--;
+		edgeState[edgenum] = 0;
+		currcost -= des.getCost();
+	}
+	void ban(int edgenum){
+		Edge curr = edges.get(edgenum);
+		edgeState[edgenum] = -1;
+		banned.add(curr);
+		epr.setVisible(curr, true);
+		epr.setStrokeColor(curr, Color.RED);
+	}
+	void unban(int edgenum){
+		Edge curr = edges.get(edgenum);
+		edgeState[edgenum] = 0;
+		banned.remove(curr);
+		epr.setVisible(curr, false);
 	}
 	
 }

@@ -1,6 +1,7 @@
 
 package alviz2.graph;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -15,8 +16,7 @@ public class Node {
 	double cost;
 	boolean visible;
 	public int deg;
-	public double leastCost;
-	public double secLeastCost;
+	public ArrayList<Edge> orderedEdges;
 	public Set<Node> tourNodes;
 	public static class PropChanger {
 		private Set<Node> changedNodes;
