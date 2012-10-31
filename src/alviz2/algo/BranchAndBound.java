@@ -164,46 +164,62 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 			}
 		}
 		boolean ret = curr.getId() == end.getId();
-		System.out.println(curr.getId()+ " " + end.getId() + " " + ret);
+		//System.out.println(curr.getId()+ " " + end.getId() + " " + ret);
 		return ret;
 	}	
 	@Override public boolean executeSingleStep()
 	{	
-		if(forward){
-			while(true){
-				if(allowed(counter)){
-					select(counter);
-					counter++;
-					if(counter >= edges.size()){ //> or >=??
-						forward = false;
-						return true;
+	if(forward){
+			if(allowed(counter)){
+				select(counter);
+				if(curredges.size() == gph.vertexSet().size()){
+					int cost = 0;
+					for(Edge e:curredges) cost += e.getCost();
+					if(cost < currmin){
+						currmin = cost;
+						minsave = new HashSet<Edge>(curredges);
+						System.out.println("current min: " + currmin);
 					}
-					if(curredges.size() == gph.vertexSet().size()){
-						int cost = 0;
-						for(Edge e:curredges) cost += e.getCost();
-						if(cost < currmin){
-							currmin = cost;
-							minsave = new HashSet<Edge>(curredges);
-						}
-						forward = false;
-						return true;
-					}
+					forward = false;
 					return true;
 				}
-				else{
-					ban(counter);
-				    counter++;
-					if(counter >= edges.size()){ //> or >=??
-						forward = false;
-					}
+				if(counter == edges.size() - 1){ //> or >=??
+					forward = false;
 					return true;
 				}
-				
+				counter++;
+				return true;
 			}
+			else{
+				ban(counter);
+			    counter++;
+				if(counter >= edges.size()){ //> or >=??
+					counter--;
+					forward = false;
+				}
+				return true;
+			}
+			
 		}
 		else{
 			while(true){
-				if(counter < 0) return false;
+				if(counter < 0) {
+					for(Edge e:minsave){
+						epr.setVisible(e, true);
+						epr.setStrokeColor(e, Color.GREEN);
+					}
+					return false;
+				}
+				assert(counter < edges.size());
+				if(counter == edges.size() - 1){
+					if(edgeState[counter] == -1){
+						unban(counter);
+					}
+					if(edgeState[counter] == 1){
+						deselect(counter);
+					}
+					counter--;
+				}
 				if(edgeState[counter] == 1){
 					deselect(counter);
 					ban(counter);
@@ -281,6 +297,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 	}
 	void deselect(int edgenum){
 		Edge des = edges.get(edgenum);
+		//assert(currcost - des.getCost() >= 0);
 		epr.setVisible(des, false);
 		curredges.remove(des);
 		gph.getEdgeSource(des).deg--;
