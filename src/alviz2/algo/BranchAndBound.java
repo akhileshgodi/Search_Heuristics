@@ -40,7 +40,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 	boolean forward;
 	Set<Edge> curredges;
 	Set<Edge> banned;
-	int currmin;
+	double currmin;
 	double currcost;
 	Set<Edge> minsave;
 	
@@ -167,13 +167,20 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 		//System.out.println(curr.getId()+ " " + end.getId() + " " + ret);
 		return ret;
 	}	
+	int debugtmp;
 	@Override public boolean executeSingleStep()
 	{	
+	if(debugtmp==0){
+		for(Edge e:edges){
+			System.out.println(gph.getEdgeSource(e).getId() + " --> " + gph.getEdgeTarget(e).getId() + " cost:" + e.getCost());
+		}
+	}
+	debugtmp = 1;
 	if(forward){
 			if(allowed(counter)){
 				select(counter);
 				if(curredges.size() == gph.vertexSet().size()){
-					int cost = 0;
+					double cost = 0;
 					for(Edge e:curredges) cost += e.getCost();
 					if(cost < currmin){
 						currmin = cost;
