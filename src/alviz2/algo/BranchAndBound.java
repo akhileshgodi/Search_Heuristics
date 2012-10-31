@@ -41,7 +41,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 	Set<Edge> curredges;
 	Set<Edge> banned;
 	int currmin;
-	int currcost;
+	double currcost;
 	Set<Edge> minsave;
 	
 
@@ -179,6 +179,9 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 						currmin = cost;
 						minsave = new HashSet<Edge>(curredges);
 						System.out.println("current min: " + currmin);
+					}
+					else{
+						System.out.println("cost:" + cost);
 					}
 					forward = false;
 					return true;
