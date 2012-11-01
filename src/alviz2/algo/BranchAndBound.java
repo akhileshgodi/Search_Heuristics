@@ -43,6 +43,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 	double currmin;
 	double currcost;
 	Set<Edge> minsave;
+	int stepnum;
 	
 	boolean debug_noprint;
 	
@@ -56,6 +57,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 		forward = true;
 		curredges = new HashSet<Edge>();
 		banned = new HashSet<Edge>();
+		stepnum = 0;
 		
 		debug_noprint = false;
 				
@@ -184,6 +186,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 		}
 	}
 	debugtmp = 1;
+	stepnum++;
 	if(forward){
 			if(allowed(counter)){
 				select(counter);
@@ -226,6 +229,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 						epr.setVisible(e, true);
 						epr.setStrokeColor(e, Color.LIGHTGREY);
 					}
+					System.out.println("terminating in steps:" + stepnum);
 					return false;
 				}
 				assert(counter < edges.size());
@@ -289,7 +293,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 				for (int i=0; i < n.orderedEdges.size(); i++) {
 					Edge e = n.orderedEdges.get(i);
 					if (!banned.contains(e) && !curredges.contains(e)) {
-						lb += e.getCost();
+						lb += e.getCost()/2;
 						tmpcount++;
 					}
 					if (tmpcount == 2)
@@ -300,7 +304,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 				for (int i=0; i < n.orderedEdges.size(); i++) {
 					Edge e = n.orderedEdges.get(i);
 					if (!banned.contains(e) && !curredges.contains(e)) {
-						lb += e.getCost();
+						lb += e.getCost()/2;
 						break;
 					}
 				}

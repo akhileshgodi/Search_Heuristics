@@ -44,6 +44,8 @@ public class BruteForce implements Algorithm<Node, Edge> {
 	double currcost;
 	Set<Edge> minsave;
 	
+	int stepnum;
+	
 
 	public BruteForce() {
 		gph = null;
@@ -54,6 +56,7 @@ public class BruteForce implements Algorithm<Node, Edge> {
 		forward = true;
 		curredges = new HashSet<Edge>();
 		banned = new HashSet<Edge>();
+		stepnum = 0;
 				
 	}
 
@@ -176,6 +179,7 @@ public class BruteForce implements Algorithm<Node, Edge> {
 		}
 	}
 	debugtmp = 1;
+	stepnum++;
 	if(forward){
 			if(allowed(counter)){
 				select(counter);
@@ -218,6 +222,7 @@ public class BruteForce implements Algorithm<Node, Edge> {
 						epr.setVisible(e, true);
 						epr.setStrokeColor(e, Color.GREEN);
 					}
+					System.out.println("terminating in steps:" + stepnum);
 					return false;
 				}
 				assert(counter < edges.size());
