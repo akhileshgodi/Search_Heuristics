@@ -312,8 +312,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 		gph.getEdgeTarget(curr).deg++;
 		edgeState[edgenum] = 1;
 		currcost += curr.getCost();
-		System.out.println("selected " + gph.getEdgeSource(curr).getId() );
-		System.out.println("selected " + gph.getEdgeTarget(curr).getId() );
+		System.out.println("selected " + gph.getEdgeSource(curr).getId() + "-->" +gph.getEdgeTarget(curr).getId() );
 	}
 	void deselect(int edgenum){
 		Edge des = edges.get(edgenum);
@@ -324,8 +323,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 		gph.getEdgeTarget(des).deg--;
 		edgeState[edgenum] = 0;
 		currcost -= des.getCost();
-		System.out.println("deselected " + gph.getEdgeSource(des).getId() );
-		System.out.println("deselected " + gph.getEdgeTarget(des).getId() );
+		System.out.println("deselected " + gph.getEdgeSource(des).getId() + "-->" +gph.getEdgeTarget(des).getId() );
 	}
 	void ban(int edgenum){
 		Edge curr = edges.get(edgenum);
@@ -333,12 +331,14 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 		banned.add(curr);
 		epr.setVisible(curr, true);
 		epr.setStrokeColor(curr, Color.RED);
+		System.out.println("banned " + gph.getEdgeSource(curr).getId() + "-->" +gph.getEdgeTarget(curr).getId() );
 	}
 	void unban(int edgenum){
 		Edge curr = edges.get(edgenum);
 		edgeState[edgenum] = 0;
 		banned.remove(curr);
 		epr.setVisible(curr, false);
+		System.out.println("unbanned " + gph.getEdgeSource(curr).getId() + "-->" +gph.getEdgeTarget(curr).getId() );
 	}
 	void printstate(){
 		for(Edge e:curredges){
