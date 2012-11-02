@@ -115,12 +115,14 @@ public class GreedyHeuristic implements Algorithm<Node, Edge> {
 				addedVtices.add(dest);
 				src.deg++;
 				dest.deg++;
+				epr.setStrokeColor(currEdge, Color.RED);
 				epr.setVisible(currEdge, true);
 				return true;
 			}
 			else if(isCycle){
 				if(selectedEdges.size()+1 == gph.vertexSet().size()&& src.deg < 2 && dest.deg < 2){
 					selectedEdges.add(currEdge);
+					epr.setStrokeColor(currEdge, Color.RED);
 					epr.setVisible(currEdge, true);
 					return false;
 				}

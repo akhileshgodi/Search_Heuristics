@@ -137,7 +137,7 @@ public class NearestInsertionTSP implements Algorithm<Node, Edge> {
 			minE = gph.getEdge(curNode, nearestNode);
 			cycleEdgeSet.add(minE);
 			epr.setVisible(minE, true);
-			epr.setStrokeColor(minE, Color.RED);
+			epr.setStrokeColor(minE, Color.BLUE);
 			npr.setFillColor(nearestNode, Color.BLUE);
 			System.out.println("Number of edges in the cycle : " + cycleEdgeSet.size());
 			System.out.println("Number of nodes in the cycle : " + cycleNodeSet.size());
@@ -176,8 +176,8 @@ public class NearestInsertionTSP implements Algorithm<Node, Edge> {
 			if(cycleEdgeSet.size() != 1)
 				epr.setVisible(IJ, false);
 			
-			epr.setStrokeColor(IK, Color.RED);
-			epr.setStrokeColor(KJ, Color.RED);
+			epr.setStrokeColor(IK, Color.BLUE);
+			epr.setStrokeColor(KJ, Color.BLUE);
 			npr.setFillColor(nearestNode, Color.BLUE);
 			if(cycleEdgeSet.size() != 1)
 				cycleEdgeSet.remove(IJ);

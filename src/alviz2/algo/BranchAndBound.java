@@ -227,7 +227,7 @@ public class BranchAndBound implements Algorithm<Node, Edge> {
 				if(counter < 0) {
 					for(Edge e:minsave){
 						epr.setVisible(e, true);
-						epr.setStrokeColor(e, Color.LIGHTGREY);
+						epr.setStrokeColor(e, Color.BLUE);
 					}
 					System.out.println("terminating in steps:" + stepnum);
 					return false;

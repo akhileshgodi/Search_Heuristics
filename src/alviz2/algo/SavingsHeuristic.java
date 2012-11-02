@@ -217,7 +217,7 @@ public class SavingsHeuristic implements Algorithm<Node, Edge>{
 				if(i0.getStrokeColor() == Color.RED && j0.getStrokeColor() == Color.BLACK){
 					epr.setStrokeColor(i0, Color.BLUE);
 					epr.setStrokeColor(j0, Color.RED);
-					//epr.setVisible(i0, false);
+					epr.setVisible(i0, false);
 					//epr.setVisible(j0, true);
 					centralNode.tourNodes.remove(i);
 				}
@@ -225,13 +225,13 @@ public class SavingsHeuristic implements Algorithm<Node, Edge>{
 					epr.setStrokeColor(i0, Color.RED);
 					epr.setStrokeColor(j0, Color.BLUE);
 					//epr.setVisible(i0, true);
-					//epr.setVisible(j0, false);
+					epr.setVisible(j0, false);
 				}
 				else {
 					epr.setStrokeColor(i0, Color.BLUE);
 					epr.setStrokeColor(j0, Color.BLUE);
-					//epr.setVisible(i0, false);
-					//epr.setVisible(j0, false);
+					epr.setVisible(i0, false);
+					epr.setVisible(j0, false);
 					centralNode.tourNodes.remove(i);
 					centralNode.tourNodes.remove(j);
 				}

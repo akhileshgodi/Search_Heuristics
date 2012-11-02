@@ -18,7 +18,7 @@ import alviz2.util.*;
 	graphType = GraphType.COMPLETE_GRAPH,
 	graphInitOptions = {GraphInit.EDGE_COST}
 )
-public class GreedyTSP implements Algorithm<Node, Edge> {
+public class NearestNeighbour implements Algorithm<Node, Edge> {
 
 	Graph<Node, Edge> gph;
 	Color c;
@@ -26,8 +26,8 @@ public class GreedyTSP implements Algorithm<Node, Edge> {
 	Edge.PropChanger epr;
 	Node curNode;
 	Set<Node> closedSet;
-
-	public GreedyTSP() {
+	Node initialNode;
+	public NearestNeighbour() {
 		gph = null;
 		npr = null;
 		c = Color.RED;
@@ -71,6 +71,7 @@ public class GreedyTSP implements Algorithm<Node, Edge> {
 			curNode = n;
 		}
 		npr.setFillColor(curNode, Color.BLUE);
+		initialNode = curNode;
 		closedSet.add(curNode);
 	}
 
@@ -106,11 +107,14 @@ public class GreedyTSP implements Algorithm<Node, Edge> {
 		}
 
 		if(nextNode == null) {
+			Edge lastE = gph.getEdge(curNode, initialNode);
+			epr.setVisible(lastE, true);
+			epr.setStrokeColor(lastE, Color.GREEN);
 			return false;
 		}
 		else {
 			epr.setVisible(minE, true);
-			epr.setStrokeColor(minE, Color.RED);
+			epr.setStrokeColor(minE, Color.GREEN);
 			npr.setFillColor(nextNode, Color.BLUE);
 			closedSet.add(nextNode);
 			curNode = nextNode;
