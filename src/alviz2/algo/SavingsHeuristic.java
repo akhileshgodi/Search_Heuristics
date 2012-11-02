@@ -1,6 +1,9 @@
-/**
- * 
+ /*
+ * Group Number : 24 
+ * Problem Index : 16
+ * Team Members  - Akhilesh Godi (CS10B037) and Chinmay Bapat (CS10B059)
  */
+
 package alviz2.algo;
 
 import java.util.ArrayList;
@@ -21,10 +24,6 @@ import alviz2.util.AlgorithmRequirements;
 import alviz2.util.GraphInit;
 import alviz2.util.GraphType;
 
-/**
- * @author akhilesh
- *
- */
 @AlgorithmRequirements (
 		graphType = GraphType.COMPLETE_GRAPH,
 		graphInitOptions = {GraphInit.EDGE_COST}
